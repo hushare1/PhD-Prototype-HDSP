@@ -1,0 +1,125 @@
+<div style="background-color: palegoldenrod"> 
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'self';font-src 'self'; img-src 'self' data: https:; style-src 'self' ; script-src 'self'">
+<!-- <div class="container custom-container-2"> -->
+  <div class="container custom-container-2">  
+  <!-- <div class="col-md-12"> -->
+      <div>
+      <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <style>
+      img {
+      /* border-radius: 50%; */
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      }
+     </style>
+        <!-- <div class="bg"></div> -->
+    <!-- Employees list table, it hides when there is no employee -->
+      <!-- <img src="/assets/mh.jpg" class="img-fluid" alt="Smiley face" height="300" width="400" background-size="100px 200px"> -->
+      <!-- <img src="/assets/mh4.jpg" alt="Smiley face" style="width:1100px;height:200px;"><br><br> -->
+      <br>
+      <img src="/assets/mh1.jpg" alt="Smiley face" style="width:100%"><br>
+      <h3 class="mb-3 text-left">Enter Jar Number</h3>
+  
+      <div class="form-group">
+        <input class="rq-form-element" type="text" [(ngModel)]="jarid" placeholder="Jar ID">
+        <!-- <input type="text" [(ngModel)]="jarid" class="form-control" placeholder="Jar ID"> -->
+      </div>
+  
+      <div class="form-group">
+        <!-- <button class="btn btn-primary btn-lg btn-block" (click)="findJar()">Find Jar Data</button> class="form-control" alt="Card image cap"-->
+        <button class="btn btn-outline-danger btn-lg" (click)="findJar()">Find Jar Data</button>
+      </div>
+    </div>
+</div><br>
+      
+<div class="container custom-container-2" *ngIf="temp" style="background-color: palegoldenrod">
+  <div>
+    <table class="table">
+    <thead class="black white-text">
+      <tr>
+        <th scope="col">Jar ID</th>
+        <th scope="col">Producer Name</th>
+        <th scope="col">Producer License No</th>
+        <th scope="col">UMF Factor</th>
+        <th scope="col">Level of Tutin</th>
+        <th scope="col">Monofloral or Multifloral</th>
+        <th scope="col">Jar Weight</th>
+        <th scope="col">Labortory Tested</th>
+        <th scope="col">Production Date</th>
+        <th scope="col">Batch No</th>
+        <th scope="col">Distributor Name</th>
+        <th scope="col">Retailer Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{jarData.jarId}}</td>
+        <td>{{jarData.producername}}</td>
+        <td>{{jarData.producerLicense}}</td>
+        <td>{{jarData.umf}}</td>
+        <td>{{jarData.tutinLevel}}</td>
+        <td>{{jarData.floralType}}</td>
+        <td>{{jarData.jarWt}}</td>
+        <td>{{jarData.labTest}}</td>
+        <td>{{jarData.producerdate}}</td>
+        <td>{{jarData.batch}}</td>
+        <td>{{jarData.distributorname}}</td>
+        <td>{{jarData.retailername}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+  
+
+<!-- <div *ngIf="temp">
+  <div>
+    <table class="table table-striped">
+    <thead class="black white-text">
+      <tr>
+        <th scope="col">Jar ID</th>
+        <th scope="col">Producer Name</th>
+        <th scope="col">Producer License No</th>
+        <th scope="col">UMF Factor</th>
+        <th scope="col">Level of Tutin</th>
+        <th scope="col">Monofloral or Multifloral</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{jarData.jarId}}</td>
+        <td>{{jarData.producername}}</td>
+        <td>{{jarData.producerLicense}}</td>
+        <td>{{jarData.umf}}</td>
+        <td>{{jarData.tutinLevel}}</td>
+        <td>{{jarData.floralType}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div><br>
+  <div>
+    <table class="table table-striped">
+    <thead class="black white-text">
+      <tr>
+        <th scope="col">Jar Weight</th>
+        <th scope="col">Labortory tested</th>
+        <th scope="col">Production Date</th>
+        <th scope="col">Batch No</th>
+        <th scope="col">Distributor Name</th>
+        <th scope="col">Retailer Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{jarData.jarWt}}</td>
+        <td>{{jarData.labTest}}</td>
+        <td>{{jarData.producerdate}}</td>
+        <td>{{jarData.batch}}</td>
+        <td>{{jarData.distributorname}}</td>
+        <td>{{jarData.retailername}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> -->

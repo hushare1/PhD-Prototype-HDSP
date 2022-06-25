@@ -1,0 +1,55 @@
+<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'self';font-src 'self'; img-src 'self' data: https:; style-src 'self' ; script-src 'self'"> -->
+
+<div class="container custom-container-2">
+    <div class="col-md-12">
+    <!-- Employees list table, it hides when there is no employee -->
+      <h3 class="mb-3 text-center">Enter Jar Number</h3>
+  
+      <div class="form-group">
+        <input type="text" [(ngModel)]="jarid" class="form-control" placeholder="ID">
+      </div><br>
+  
+      <div class="form-group">
+        <button class="btn btn-success btn-lg btn-block" (click)="findJar()">Find Jar Data</button>
+      </div>
+    </div>
+</div><br><br>
+      
+<div *ngIf="temp">
+  <div>
+    <table class="table">
+    <thead class="black white-text">
+      <tr>
+        <th scope="col">Jar ID</th>
+        <th scope="col">Producer Name</th>
+        <th scope="col">Producer License No</th>
+        <th scope="col">UMF Factor</th>
+        <th scope="col">Level of Tutin</th>
+        <th scope="col">Monofloral or Multifloral</th>
+        <th scope="col">Jar Weight</th>
+        <th scope="col">Labortory tested</th>
+        <th scope="col">Production Date</th>
+        <th scope="col">Batch No</th>
+        <th scope="col">Distributor Name</th>
+        <th scope="col">Retailer Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{jarData.jarId}}</td>
+        <td>{{jarData.producername}}</td>
+        <td>{{jarData.producerLicense}}</td>
+        <td>{{jarData.umf}}</td>
+        <td>{{jarData.tutinLevel}}</td>
+        <td>{{jarData.floralType}}</td>
+        <td>{{jarData.jarWt}}</td>
+        <td>{{jarData.labTest}}</td>
+        <td>{{jarData.producerdate}}</td>
+        <td>{{jarData.batch}}</td>
+        <td>{{jarData.distributorname}}</td>
+        <td>{{jarData.retailername}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

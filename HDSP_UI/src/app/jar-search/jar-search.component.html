@@ -1,0 +1,71 @@
+<div style="background-color: palegoldenrod"> 
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'self';font-src 'self'; img-src 'self' data: https:; style-src 'self' ; script-src 'self'">
+<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'self';font-src 'self'; img-src 'self' data: https:; style-src 'self' ; script-src 'self'"> -->
+  <div class="container custom-container-2">  
+      <div>
+    <style>
+      img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      }
+     </style>
+      <br>
+      <!-- <img src="/assets/mh1.jpg" alt="Smiley face" style="width:100%"><br> -->
+      <h3 class="mb-3 text-left">Enter Jar Number</h3>
+  
+      <div class="form-group">
+        <input class="rq-form-element" type="text" [(ngModel)]="jarid" placeholder="Jar ID">
+      </div>
+  
+      <div class="form-group">
+        <button class="btn btn-outline-dark btn-lg" (click)="findJar()">Find Jar Data</button>
+      </div>
+    </div>
+</div><br>
+
+<div class="container custom-container-2" *ngIf="temp1" style="background-color: palegoldenrod">
+  <div>
+    <h5 style="color: red;">Error: Jar id is NOT found! Please enter valid Jar ID</h5>
+  </div>
+</div>
+      
+<div class="container custom-container-2" *ngIf="temp" style="background-color: palegoldenrod">
+  <div>
+    <table class="table">
+    <thead class="black white-text">
+      <tr>
+        <th scope="col">Jar ID</th>
+        <th scope="col">Producer Name</th>
+        <th scope="col">Producer License No</th>
+        <th scope="col">UMF Factor</th>
+        <th scope="col">Level of Tutin</th>
+        <th scope="col">Monofloral or Multifloral</th>
+        <th scope="col">Jar Weight</th>
+        <th scope="col">Labortory Tested</th>
+        <th scope="col">Production Date</th>
+        <th scope="col">Batch No</th>
+        <th scope="col">Distributor Name</th>
+        <th scope="col">Retailer Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{jarData.jarId}}</td>
+        <td>{{jarData.producername}}</td>
+        <td>{{jarData.producerLicense}}</td>
+        <td>{{jarData.umf}}</td>
+        <td>{{jarData.tutinLevel}}</td>
+        <td>{{jarData.floralType}}</td>
+        <td>{{jarData.jarWt}}</td>
+        <td>{{jarData.labTest}}</td>
+        <td>{{jarData.producerdate}}</td>
+        <td>{{jarData.batch}}</td>
+        <td>{{jarData.distributorname}}</td>
+        <td>{{jarData.retailername}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
