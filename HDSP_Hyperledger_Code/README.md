@@ -71,7 +71,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODE5NjI3MTUsInVzZXJuYW1lIjoiVG9
 
 4.	POSTMAN API collections
 Please import below POSTMAN API collection for testing
- 
+  
 
 ## Running the sample program
 
