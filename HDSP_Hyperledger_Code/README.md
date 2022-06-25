@@ -22,6 +22,57 @@ Once you have completed the above setup, you will have provisioned a local netwo
 * Crypto material has been generated using the **cryptogen** tool from Hyperledger Fabric and mounted to all peers, the orderering node and CA containers. More details regarding the cryptogen tool are available [here](http://hyperledger-fabric.readthedocs.io/en/latest/build_network.html#crypto-generator).
 * An Orderer genesis block (genesis.block) and channel configuration transaction (mychannel.tx) has been pre generated using the **configtxgen** tool from Hyperledger Fabric and placed within the artifacts folder. More details regarding the configtxgen tool are available [here](http://hyperledger-fabric.readthedocs.io/en/latest/build_network.html#configuration-transaction-generator).
 
+
+**##Blockchain Hyperledger Setup**
+
+1.	Give command sudo su to go to root. No pwd required. 
+2.	Login to Linux server (t2-medium instance) and Go to below folder / directory
+/home/ubuntu/MH-Project/MHasset-transfer
+
+	2a.  run command -         rm -r fabric-client-kv-*
+
+	2b. change user name (e.g. Jim3 to Jim4 in app.js file) in testAPIs.sh script.....
+
+
+3.	Run below command
+	./runApp.sh				
+	•	This shell script delete existing docker containers and it will again create new docker containers.
+	•	This will make node server up. Below output will be generated
+	•	Command output: 
+	[2020-02-17 08:51:44.097] [INFO] SampleWebApp - ****************** SERVER STARTED ************************
+	[2020-02-17 08:51:44.099] [INFO] SampleWebApp - ***************  http://localhost:4000  ******************
+	Database connected successfully			 MongoDB is connected successfully
+4.	Open new window / duplicate session and go to same folder /home/ubuntu/MH-Project/MHasset-transfer)
+	Run below command
+	testAPIs.sh
+	•	This shell script will enroll users, create channel, add users to channel and deploy the smart contracts
+	•	This command will generate unique JWT token. These tokens should be inputted in POSTMAN for testing later 
+	•	Command output: 
+
+ORG1 token is 
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODE5NjI3MTQsInVzZXJuYW1lIjoiSmltMSIsIm9yZ05hbWUiOiJQbm9kZSIsImlhdCI6MTU4MTkyNjcxNH0.9aNRfcEbi17JmJjDrJ4rX_01r1Dq0AacPMowdYTjYR4
+ORG2 token is 
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODE5NjI3MTUsInVzZXJuYW1lIjoiQmFycnkxIiwib3JnTmFtZSI6IkRub2RlIiwiaWF0IjoxNTgxOTI2NzE1fQ.Rpvr0wRwoo8NqDKKmaPXAxQpoR4FSKP57mEZwtkUH7Y
+ORG3 token is 
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODE5NjI3MTUsInVzZXJuYW1lIjoiVG9ueTEiLCJvcmdOYW1lIjoiUm5vZGUiLCJpYXQiOjE1ODE5MjY3MTV9.dxmDbiNXBtVAD6njqCAm5c2iXDZXCCJsjvOSWef77vQ
+
+5.	If all above steps are successful then Blockchain Hyperledger setup is ready for testing
+
+
+
+**##Blockchain Hyperledger Testing (Via Postman)**
+1.	Open POSTMAN application
+2.	Create new POST API request
+	•	e.g. http://13.235.244.125:4000/pnode/add
+	•	go to Authorization tab. In type select Bearer Token. Enter JWT token which you received in step 3 (for first org)
+	•	go to Body tab. Select raw radio button and input data which needs to be passed to Blockchain Hyperledger. Ensure JSON data is selected
+	•	once this setup is done. Click on Send button. This will trigger POST API to Blockchain Hyper ledger and you will get POST response back in POSTMAN application
+3.	Follow the above step 2 for rest POST API’s request creation
+
+4.	POSTMAN API collections
+Please import below POSTMAN API collection for testing
+ 
+
 ## Running the sample program
 
 Run with chaincode written in golang or in node.js.
@@ -41,7 +92,7 @@ npm install
 PORT=4000 node app
 ```
 
-##### Terminal Window 3
+##### Terminal Window 
 
 * Execute the REST APIs from the section using the Postman. 
 
@@ -56,7 +107,7 @@ cd fabric-samples/MHasset-transfer
 * Installs the fabric-client and fabric-ca-client node modules
 * And, starts the node app on PORT 4000
 
-##### Terminal Window 2
+##### Terminal Window 
 
 
 In order for the following shell script to properly parse the JSON, you must install ``jq``:
