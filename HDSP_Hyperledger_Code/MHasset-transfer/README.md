@@ -1,9 +1,7 @@
-## Balance transfer
-
+## Manuka Honey asset transfer to three peers (honey producer, distributor and retailer) on Hyperledger Fabric 1.4 Network. 
 A sample Node.js app to demonstrate **__fabric-client__** & **__fabric-ca-client__** Node.js SDK APIs
 
-### Prerequisites and setup:
-
+### Steps and prerequisites to run the code.
 * [Docker](https://www.docker.com/products/overview) - v1.12 or higher
 * [Docker Compose](https://docs.docker.com/compose/overview/) - v1.8 or higher
 * [Git client](https://git-scm.com/downloads) - needed for clone commands
@@ -11,7 +9,7 @@ A sample Node.js app to demonstrate **__fabric-client__** & **__fabric-ca-client
 * [Download Docker images](http://hyperledger-fabric.readthedocs.io/en/latest/samples.html#binaries)
 
 ```
-cd fabric-samples/balance-transfer/
+cd fabric-samples/MHasset-transfer/
 ```
 
 Once you have completed the above setup, you will have provisioned a local network with the following docker container configuration:
@@ -26,23 +24,14 @@ Once you have completed the above setup, you will have provisioned a local netwo
 
 ## Running the sample program
 
-There are two options available for running the balance-transfer sample
-For each of these options, you may choose to run with chaincode written in golang or in node.js.
-
-### Option 1:
-
-##### Terminal Window 1
+Run with chaincode written in golang or in node.js.
 
 * Launch the network using docker-compose
 
 ```
 docker-compose -f artifacts/docker-compose.yaml up
 ```
-##### Terminal Window 2
 
-* Install the fabric-client and fabric-ca-client node modules
-
-```
 npm install
 ```
 
@@ -54,15 +43,10 @@ PORT=4000 node app
 
 ##### Terminal Window 3
 
-* Execute the REST APIs from the section [Sample REST APIs Requests](https://github.com/hyperledger/fabric-samples/tree/master/balance-transfer#sample-rest-apis-requests)
+* Execute the REST APIs from the section using the Postman. 
 
 
-### Option 2:
-
-##### Terminal Window 1
-
-```
-cd fabric-samples/balance-transfer
+cd fabric-samples/MHasset-transfer
 
 ./runApp.sh
 
@@ -81,38 +65,15 @@ instructions [https://stedolan.github.io/jq/](https://stedolan.github.io/jq/)
 
 With the application started in terminal 1, next, test the APIs by executing the script - **testAPIs.sh**:
 ```
-cd fabric-samples/balance-transfer
+cd fabric-samples/MHasset-transfer
 
 ## To use golang chaincode execute the following command
 
 ./testAPIs.sh -l golang
 
-## OR use node.js chaincode
-
-./testAPIs.sh -l node
-```
-
-
-## Sample REST APIs Requests
-
-### Login Request
-
-* Register and enroll new users in Organization - **Org1**:
-
-`curl -s -X POST http://localhost:4000/users -H "content-type: application/x-www-form-urlencoded" -d 'username=Jim&orgName=Org1'`
-
-**OUTPUT:**
 
 ```
-{
-  "success": true,
-  "secret": "RaxhMgevgJcm",
-  "message": "Jim enrolled Successfully",
-  "token": "<put JSON Web Token here>"
-}
-```
 
-The response contains the success/failure status, an **enrollment Secret** and a **JSON Web Token (JWT)** that is a required string in the Request Headers for subsequent requests.
 
 ### Create Channel request
 
@@ -190,12 +151,20 @@ This policy can be fulfilled when members from both orgs sign the transaction pr
 				mspId: 'Org2MSP'
 			}
 		}
+		{
+			role: {
+				name: 'member',
+				mspId: 'Org3MSP'
+			}
+		}
 	],
 	policy: {
-		'2-of': [{
+		'1-of': [{
 			'signed-by': 0
 		}, {
 			'signed-by': 1
+		}, {
+			'signed-by': 2
 		}]
 	}
 }
@@ -224,7 +193,7 @@ curl -s -X POST \
   -H "authorization: Bearer <put JSON Web Token here>" \
   -H "content-type: application/json" \
   -d '{
-	"peers": ["peer0.org1.example.com","peer0.org2.example.com"],
+	"peers": ["peer0.org1.example.com","peer0.org2.example.com","peer0.org3.example.com"],
 	"fcn":"move",
 	"args":["a","b","10"]
 }'
@@ -328,5 +297,3 @@ To retrieve the IP Address for one of your network entities, issue the following
 # this will return the IP Address for peer0
 docker inspect peer0 | grep IPAddress
 ```
-
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
