@@ -1,0 +1,141 @@
+#
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+version: '2'
+
+services:
+
+  ca.pnode.example.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server-config
+      - FABRIC_CA_SERVER_CA_NAME=ca-pnode
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.pnode.example.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/df36239e756915245dac9d47046046a7cbb9acabf216d94615a03bac5a21cad6_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.pnode.example.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/df36239e756915245dac9d47046046a7cbb9acabf216d94615a03bac5a21cad6_sk
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./channel/crypto-config/peerOrganizations/pnode.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - /home/ubuntu/CA-SERVER/fabric-ca-server-config.yaml:/etc/hyperledger/fabric-ca-server-config/fabric-ca-server-config.yaml
+      - /home/ubuntu/CA-SERVER/fabric-ca-server.db:/etc/hyperledger/fabric-ca-server-config/fabric-ca-server.db
+    container_name: ca_peerPnode
+
+  ca.dnode.example.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server-config
+      - FABRIC_CA_SERVER_CA_NAME=ca-dnode
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.dnode.example.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/61b74566faf820d13a8bf8bef08d3dbb945a822e8dabcf2c0bc097cfe2d0b7b7_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.dnode.example.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/61b74566faf820d13a8bf8bef08d3dbb945a822e8dabcf2c0bc097cfe2d0b7b7_sk
+    ports:
+      - "8054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./channel/crypto-config/peerOrganizations/dnode.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - /home/ubuntu/CA-SERVER/fabric-ca-server-config.yaml:/etc/hyperledger/fabric-ca-server-config/fabric-ca-server-config.yaml
+      - /home/ubuntu/CA-SERVER/fabric-ca-server.db:/etc/hyperledger/fabric-ca-server-config/fabric-ca-server.db
+    container_name: ca_peerDnode
+    
+  ca.rnode.example.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server-config
+      - FABRIC_CA_SERVER_CA_NAME=ca-rnode
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.rnode.example.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/999d7a0ad730b102a4863694b72158e9bb1724c1ae26b0c10d99139bdf5ba1ff_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.rnode.example.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/999d7a0ad730b102a4863694b72158e9bb1724c1ae26b0c10d99139bdf5ba1ff_sk
+    ports:
+      - "9054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./channel/crypto-config/peerOrganizations/rnode.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - /home/ubuntu/CA-SERVER/fabric-ca-server-config.yaml:/etc/hyperledger/fabric-ca-server-config/fabric-ca-server-config.yaml
+      - /home/ubuntu/CA-SERVER/fabric-ca-server.db:/etc/hyperledger/fabric-ca-server-config/fabric-ca-server.db
+    container_name: ca_peerRnode
+
+  orderer.example.com:
+    container_name: orderer.example.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - FABRIC_LOGGING_SPEC=debug
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/crypto/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/crypto/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/crypto/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/crypto/orderer/tls/ca.crt, /etc/hyperledger/crypto/peerPnode/tls/ca.crt, /etc/hyperledger/crypto/peerDnode/tls/ca.crt, /etc/hyperledger/crypto/peerRnode/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderers
+    command: orderer
+    ports:
+      - 7050:7050
+    volumes:
+        - ./channel:/etc/hyperledger/configtx
+        - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/:/etc/hyperledger/crypto/orderer
+        - ./channel/crypto-config/peerOrganizations/pnode.example.com/peers/peer0.pnode.example.com/:/etc/hyperledger/crypto/peerPnode
+        - ./channel/crypto-config/peerOrganizations/dnode.example.com/peers/peer0.dnode.example.com/:/etc/hyperledger/crypto/peerDnode
+        - ./channel/crypto-config/peerOrganizations/rnode.example.com/peers/peer0.rnode.example.com/:/etc/hyperledger/crypto/peerRnode
+
+  peer0.pnode.example.com:
+    container_name: peer0.pnode.example.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.pnode.example.com
+      - CORE_PEER_LOCALMSPID=PnodeMSP
+      - CORE_PEER_ADDRESS=peer0.pnode.example.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.pnode.example.com:7051      
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.pnode.example.com:7051
+    ports:
+      - 7051:7051
+      - 7053:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/pnode.example.com/peers/peer0.pnode.example.com/:/etc/hyperledger/crypto/peer
+
+  peer0.dnode.example.com:
+    container_name: peer0.dnode.example.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.dnode.example.com
+      - CORE_PEER_LOCALMSPID=DnodeMSP
+      - CORE_PEER_ADDRESS=peer0.dnode.example.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.dnode.example.com:7051      
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.dnode.example.com:7051
+    ports:
+      - 8051:7051
+      - 8053:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/dnode.example.com/peers/peer0.dnode.example.com/:/etc/hyperledger/crypto/peer
+      
+  peer0.rnode.example.com:
+    container_name: peer0.rnode.example.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.rnode.example.com
+      - CORE_PEER_LOCALMSPID=RnodeMSP
+      - CORE_PEER_ADDRESS=peer0.rnode.example.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.rnode.example.com:7051      
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.rnode.example.com:7051
+    ports:
+      - 9051:7051
+      - 9053:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/rnode.example.com/peers/peer0.rnode.example.com/:/etc/hyperledger/crypto/peer
