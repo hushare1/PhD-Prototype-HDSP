@@ -1,6 +1,7 @@
 # PhD-Prototype-HDSP
 
 ##Manuka Honey Hyperledger Fabric 1.4 DLT Solution Prototype (HDSP).
+
   The HDSP prototype consists of two-part; one is Hyperledger network; second part is a simple UI developed 
   to test the application (in addition to using Postman to test Restful APIs). The code base for both these parts is 
   available in their respective folders in this repository. The README.md files in each of these folders provide a detailed explanation to
